@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { findUser, addUser } from "./user.js";
-import bcrypt from "bcryptjs";
 import session from "express-session";
 import dotenv from "dotenv";
+import authRoutes from './routes/auth.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
+
 
 dotenv.config();
 
@@ -21,35 +22,8 @@ app.use(session({
 }));
 
 
-app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
-    const existingUser = await findUser(username);
-    if (existingUser) return res.status(400).send('User already exists');
-    await addUser(username, password);
-    res.send('User registered');
-});
-
-app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    const user = await findUser(username);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).send('Invalid credentials');
-    }
-
-    req.session.user = user.username;
-    res.send('Logged in');
-});
-
-app.get('/dashboard', (req, res) => {
-    if (!req.session.user) return res.status(401).send('Not logged in');
-    res.send(`Hello, ${req.session.user}`);
-});
-
-app.post('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.send('Logged out');
-    });
-});
+app.use(authRoutes);
+app.use(dashboardRoutes);
 
 
 
