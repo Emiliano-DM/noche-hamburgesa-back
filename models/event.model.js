@@ -24,6 +24,9 @@ export async function getEventById(id) {
 export async function createEvent({name, participants, date, createdBy}) {
   const data = await getData();
   const events = data.eventos || [];
+  if (!isValidEvent(req.body)) {
+  return res.status(400).json({ error: 'Invalid event data' });
+  }
   const newEvent = {
     id: uuidv4(),
     name,
@@ -63,4 +66,48 @@ export async function updateEvent(eventId, updatedData) {
 
   await fs.writeFile(db, JSON.stringify(data, null, 2));
   return events[eventIndex];
+}
+
+
+function isValidEvent(event) {
+  const { name, participants, date, createdBy } = event;
+
+  if (
+    typeof name !== 'string' || !name.trim() ||
+    typeof participants !== 'object' || participants === null || Array.isArray(participants) ||
+    typeof date !== 'string' || !Date.parse(date) ||
+    typeof createdBy !== 'string' || !createdBy.trim()
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+export async function addParticipantToEvent(eventId, newParticipant) {
+  const data = await getData();
+  const events = data.eventos || [];
+
+  const eventIndex = events.findIndex(e => e.id === eventId);
+  if (eventIndex === -1) {
+    return null; // event not found
+  }
+
+  const event = events[eventIndex];
+
+  if (typeof event.participants !== 'object' || event.participants === null) {
+    event.participants = {};
+  }
+
+  const participantId = newParticipant.id;
+  if (!participantId) {
+    throw new Error('Participant must have an id');
+  }
+
+  event.participants[participantId] = newParticipant;
+
+  data.eventos[eventIndex] = event;
+  await fs.writeFile(db, JSON.stringify(data, null, 2));
+
+  return event;
 }

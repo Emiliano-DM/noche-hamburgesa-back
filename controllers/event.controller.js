@@ -1,4 +1,4 @@
-import {getEventById, updateEvent, createEvent, deleteEvent, getEvents} from '../models/event.model.js';
+import { updateEvent, createEvent, deleteEvent, getEvents, addParticipantToEvent} from '../models/event.model.js';
 
 
 
@@ -62,5 +62,34 @@ export async function readEvent(req, res) {
     res.json(events);
   } catch (error) {
     res.status(500).send('Error retrieving events');
+  }
+}
+
+export async function addParticipant(req, res) {
+  const { eventId } = req.params;
+  const participantData = req.body; // extra info 
+
+  // Assume authentication middleware sets req.user or req.user.id
+  const loggedInUserId = req.user?.id  
+  if (!loggedInUserId) {
+    return res.status(401).json({ error: 'Unauthorized: user not logged in' });
+  }
+
+  // Compose participant object with logged-in user's ID
+  const newParticipant = {
+    id: loggedInUserId,
+    ...participantData,
+  };
+
+  try {
+    const updatedEvent = await addParticipantToEvent(eventId, newParticipant);
+
+    if (!updatedEvent) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    res.status(200).json({ message: 'Participant added', event: updatedEvent });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 }

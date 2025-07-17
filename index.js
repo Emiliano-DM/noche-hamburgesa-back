@@ -24,7 +24,7 @@ app.use(session({
 
 
 app.use(authRoutes);
-app.use(dashboardRoutes);
+//app.use(dashboardRoutes);
 app.use(eventRoutes);
 
 

@@ -23,7 +23,12 @@
     {
       "id": "192f980a-1b91-4b85-8218-d7fccfe732c4",
       "name": "forth-event",
-      "participants": [],
+      "participants": {
+        "prova2": {
+          "id": "prova2",
+          "toTake": "manta"
+        }
+      },
       "date": "2025-07-16",
       "createdBy": "prova"
     },

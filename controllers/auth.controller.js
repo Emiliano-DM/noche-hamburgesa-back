@@ -23,7 +23,7 @@ export async function login(req, res) {
         return res.status(401).send('Invalid credentials');
       }
 
-  req.session.user = user.username;
+  req.session.user = { id: user.id || user.username };
   res.send('Logged in');
 }
 
@@ -34,12 +34,12 @@ export async function logout(req, res) {
 }
 
 function isValidUserData(userData) {
-  const { nombre, apellido, edad, interesses } = userData;
+  const { name, surname, age, interests } = userData;
   if (
-    typeof nombre !== 'string' || !nombre.trim() ||
-    typeof apellido !== 'string' || !apellido.trim() ||
-    typeof edad !== 'number' || edad < 0 ||
-    !Array.isArray(interesses) || !interesses.every(i => typeof i === 'string')
+    typeof name !== 'string' || !name.trim() ||
+    typeof surname !== 'string' || !surname.trim() ||
+    typeof age !== 'number' || age < 0 ||
+    !Array.isArray(interests) || !interests.every(i => typeof i === 'string')
   ) {
     return false;
   }
