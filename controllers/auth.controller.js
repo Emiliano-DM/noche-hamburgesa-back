@@ -3,12 +3,15 @@ import bcrypt from "bcryptjs";
 
 
 export async function register(req, res) {
-  const { username, password } = req.body;
-
+  const { username, password, ...userData } = req.body;
+  console.log(isValidUserData(userData));
+  if (!isValidUserData(userData)) {
+    return res.status(400).json({ error: 'Invalid user data format', data: userData });
+  }
   const existingUser = await findUser(username);
   if (existingUser) return res.status(400).send('User already exists');
 
-  await addUser(username, password);
+  await addUser(username, password, userData);
   res.send('User registered');
 }
 
@@ -28,4 +31,18 @@ export async function logout(req, res) {
   req.session.destroy(() => {
     res.send('Logged out');
   });
+}
+
+function isValidUserData(userData) {
+  const { nombre, apellido, edad, interesses } = userData;
+  if (
+    typeof nombre !== 'string' || !nombre.trim() ||
+    typeof apellido !== 'string' || !apellido.trim() ||
+    typeof edad !== 'number' || edad < 0 ||
+    !Array.isArray(interesses) || !interesses.every(i => typeof i === 'string')
+  ) {
+    return false;
+  }
+
+  return true;
 }

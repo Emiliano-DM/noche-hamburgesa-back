@@ -8,14 +8,17 @@ async function getData() {
   return JSON.parse(data);
 }
 
-export async function addUser(username, password) {
+export async function addUser(username, password, userData) {
   const hashed = await bcrypt.hash(password, 10);
   const data = await getData();
   const users = data.usuarios || [];
+  if (users.some(user => user.username === username)) {
+    throw new Error('Username already exists');
+  }
+  
 
-  if (!users) users = [];
-
-  users.push({ username, password: hashed });
+  users.push({ username, password: hashed, ...userData });
+  data.usuarios = users;
   await fs.writeFile(db, JSON.stringify(data, null, 2));
 }
 

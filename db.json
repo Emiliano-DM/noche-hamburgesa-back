@@ -7,6 +7,16 @@
     {
       "username": "prova",
       "password": "$2b$10$gPzJWJpATR6jSr97zTBMPO/EfFFtTM.v0gTogG8YHuDkN3eFFQf1K"
+    },
+    {
+      "username": "prova3",
+      "password": "$2b$10$5HIHAWkGsbLGIRCDibcr7.gaIhDJE4VF3VtK9il8nxdX8.V3XaFp.",
+      "nombre": "carlos",
+      "apellido": "pelolargo",
+      "edad": 36,
+      "interesses": [
+        "programacion"
+      ]
     }
   ],
   "eventos": [
