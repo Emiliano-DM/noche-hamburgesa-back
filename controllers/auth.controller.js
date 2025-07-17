@@ -1,6 +1,6 @@
 import { addUser, findUser } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import session from 'express-session';
+
 
 export async function register(req, res) {
   const { username, password } = req.body;

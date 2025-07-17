@@ -4,6 +4,7 @@ import session from "express-session";
 import dotenv from "dotenv";
 import authRoutes from './routes/auth.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
+import eventRoutes from './routes/event.routes.js';
 
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(session({
 
 app.use(authRoutes);
 app.use(dashboardRoutes);
+app.use(eventRoutes);
 
 
 

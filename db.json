@@ -3,7 +3,33 @@
     {
       "username": "prova2",
       "password": "$2b$10$kdzqnvk2VZWljOf3nGBHQ.lo1TBD6d6P/scLGr1uUDD9CEZ2V5JJy"
+    },
+    {
+      "username": "prova",
+      "password": "$2b$10$gPzJWJpATR6jSr97zTBMPO/EfFFtTM.v0gTogG8YHuDkN3eFFQf1K"
     }
   ],
-  "eventos": []
+  "eventos": [
+    {
+      "id": "192f980a-1b91-4b85-8218-d7fccfe732c4",
+      "name": "forth-event",
+      "participants": [],
+      "date": "2025-07-16",
+      "createdBy": "prova"
+    },
+    {
+      "id": "16d654e2-cc94-4a36-9006-d5ead5883e20",
+      "name": "first-event",
+      "participants": [],
+      "date": "2025-07-16",
+      "createdBy": "prova"
+    },
+    {
+      "id": "840b229e-9514-4fdb-b843-d4ce3eb8ca30",
+      "name": "first-event",
+      "participants": [],
+      "date": "2025-07-16",
+      "createdBy": "prova"
+    }
+  ]
 }
